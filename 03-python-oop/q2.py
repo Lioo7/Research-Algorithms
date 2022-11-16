@@ -47,7 +47,9 @@ I already told you that the answer is 10!
 import numpy as np
 import doctest
 
-history_calls = {} # this dict will save all the inputs of the user and their results for each func
+# this nested dict will save all the inputs of the user and their results for each func
+# {func_name: {input: output}}
+history_calls = {}
 
 def last_input(func):
     """
