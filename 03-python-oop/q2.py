@@ -31,12 +31,23 @@ I already told you that the answer is 3.0!
 I already told you that the answer is 3.0!
 >>> round_up(10.5)
 I already told you that the answer is 11.0!
+
+>>> print(round_down(2.3))
+2
+>>> round_down(2.3)
+I already told you that the answer is 2!
+>>> print(round_down(10.5))
+10
+>>> round_down(2.3)
+I already told you that the answer is 2!
+>>> round_down(10.5)
+I already told you that the answer is 10!
 """
 
 import numpy as np
 import doctest
 
-history_calls = {} # this dict will save all the inputs of the user and their results 
+history_calls = {} # this dict will save all the inputs of the user and their results for each func
 
 def last_input(func):
     """
@@ -44,11 +55,18 @@ def last_input(func):
     in order to warn if the user inserts the same input multiple times
     """
     def wrapper(x):
-        if x in history_calls:
-            print(f"I already told you that the answer is {history_calls[x]}!")
-        else:
+        func_name = func.__name__
+        try:
+            if x in history_calls[func_name]:
+                print(f"I already told you that the answer is {history_calls[func_name][x]}!")
+            else:
+                ans = func(x)
+                history_calls[func_name][x] = ans
+                return ans
+        except:
             ans = func(x)
-            history_calls[x] = ans
+            if func_name not in history_calls:
+                history_calls[func_name] = {x: ans}
             return ans
     return wrapper
 
@@ -64,6 +82,10 @@ def duplicate(s: str):
 @last_input
 def round_up(x: float):
      return np.ceil(x)
+
+@last_input
+def round_down(x: float):
+    return int(x)
 
 
 def main():
